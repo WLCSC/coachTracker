@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :sports
   resources :roles
   resources :categories
   resources :positions
