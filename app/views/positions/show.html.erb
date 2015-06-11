@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Hire:</strong>
+  <%= @position.hire %>
+</p>
+
+<p>
+  <strong>Experience:</strong>
+  <%= @position.experience %>
+</p>
+
+<p>
+  <strong>Fte:</strong>
+  <%= @position.fte %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @position.year %>
+</p>
+
+<p>
+  <strong>Role:</strong>
+  <%= @position.role %>
+</p>
+
+<p>
+  <strong>Person:</strong>
+  <%= @position.person %>
+</p>
+
+<p>
+  <strong>Sport:</strong>
+  <%= @position.sport %>
+</p>
+
+<%= link_to 'Edit', edit_position_path(@position) %> |
+<%= link_to 'Back', positions_path %>

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hire: 2015-06-11
+  experience: 1
+  fte: 1.5
+  year_id: 
+  role_id: 
+  person_id: 
+  sport_id: 
+
+two:
+  hire: 2015-06-11
+  experience: 1
+  fte: 1.5
+  year_id: 
+  role_id: 
+  person_id: 
+  sport_id: 
