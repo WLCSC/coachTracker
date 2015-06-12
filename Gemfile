@@ -48,4 +48,3 @@ gem "bootstrap-sass", "~> 3.3"
 
 # For convenient forms
 gem "formtastic", "~> 3.1"
-gem "formtastic-bootstrap", "~> 3.1"

@@ -1,3 +1,20 @@
+<%= semantic_form_for(@position) do |f| %>
+	<%= f.semantic_errors :state %>
+
+	<%= f.inputs do %>
+		<%= f.input :hire %>
+		<%= f.input :experience %>
+		<%= f.input :fte %>
+		<%= f.input :year_id %>
+		<%= f.input :role_id %>
+		<%= f.input :sport_id %>
+	<% end %>
+
+	<%= f.actions do %>
+		<%= f.action :submit, button_html: { disable_with: "Wait..." } %>
+	<% end %>
+<% end %>
+
 <%= form_for(@position) do |f| %>
 	<% if @position.errors.any? %>
 		<div id="error_explanation">
