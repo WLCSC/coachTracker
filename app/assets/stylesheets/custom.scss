@@ -1,0 +1,16 @@
+// Place all the styles related to the Years controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body {
+  background-color: #cf802c;
+  background-image: asset-url("wood-pattern.png");
+  margin-top: 80px;
+}
+
+.page-container {
+  background-color: lighten(#cf802c, 30%);
+  padding: 1vh;
+  border: thin solid #cf802c;
+  border-radius: 8px;
+}
