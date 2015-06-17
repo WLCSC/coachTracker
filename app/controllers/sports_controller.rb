@@ -4,7 +4,7 @@ class SportsController < ApplicationController
   # GET /sports
   # GET /sports.json
   def index
-    @sports = Sport.all
+    @sports = Sport.order(:short)
   end
 
   # GET /sports/1
@@ -69,6 +69,6 @@ class SportsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sport_params
-      params.require(:sport).permit(:name, :short, :start_date, :end_date, :role_id)
+      params.require(:sport).permit(:name, :short, :start_date, :end_date)
     end
 end

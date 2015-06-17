@@ -1,37 +1,17 @@
-<%= form_for(@sport) do |f| %>
-  <% if @sport.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@sport.errors.count, "error") %> prohibited this sport from being saved:</h2>
+<%= semantic_form_for(@sport) do |f| %>
+  <%= f.semantic_errors :state %>
 
-      <ul>
-      <% @sport.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+  <%= f.inputs do %>
+    <%= f.input :name %>
+    <%= f.input :short, label: "Short Code" %>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :short %><br>
-    <%= f.text_field :short %>
-  </div>
-  <div class="field">
-    <%= f.label :start_date %><br>
-    <%= f.date_select :start_date %>
-  </div>
-  <div class="field">
-    <%= f.label :end_date %><br>
-    <%= f.date_select :end_date %>
-  </div>
-  <div class="field">
-    <%= f.label :role_id %><br>
-    <%= f.text_field :role_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.inputs name: "Contract Dates" do %>
+    <%= f.input :start_date %>
+    <%= f.input :end_date %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, button_html: { disable_with: "Wait...", class: 'btn btn-primary' } %>
+  <% end %>
 <% end %>

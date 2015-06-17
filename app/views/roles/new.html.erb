@@ -1,5 +1,7 @@
-<h1>New Role</h1>
+<h1>New Role for <%= @sport.name %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', roles_path %>
+<br/>
+
+<%= link_to 'Cancel', @sport, class: 'btn btn-danger' %>

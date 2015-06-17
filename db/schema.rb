@@ -11,12 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150611173250) do
+ActiveRecord::Schema.define(version: 20150617135100) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "pay"
   end
 
   create_table "certifications", force: :cascade do |t|
@@ -27,9 +31,9 @@ ActiveRecord::Schema.define(version: 20150611173250) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "certifications", ["course_id"], name: "index_certifications_on_course_id"
-  add_index "certifications", ["person_id"], name: "index_certifications_on_person_id"
-  add_index "certifications", ["year_id"], name: "index_certifications_on_year_id"
+  add_index "certifications", ["course_id"], name: "index_certifications_on_course_id", using: :btree
+  add_index "certifications", ["person_id"], name: "index_certifications_on_person_id", using: :btree
+  add_index "certifications", ["year_id"], name: "index_certifications_on_year_id", using: :btree
 
   create_table "courses", force: :cascade do |t|
     t.string   "name"
@@ -56,10 +60,10 @@ ActiveRecord::Schema.define(version: 20150611173250) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "positions", ["person_id"], name: "index_positions_on_person_id"
-  add_index "positions", ["role_id"], name: "index_positions_on_role_id"
-  add_index "positions", ["sport_id"], name: "index_positions_on_sport_id"
-  add_index "positions", ["year_id"], name: "index_positions_on_year_id"
+  add_index "positions", ["person_id"], name: "index_positions_on_person_id", using: :btree
+  add_index "positions", ["role_id"], name: "index_positions_on_role_id", using: :btree
+  add_index "positions", ["sport_id"], name: "index_positions_on_sport_id", using: :btree
+  add_index "positions", ["year_id"], name: "index_positions_on_year_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -67,10 +71,11 @@ ActiveRecord::Schema.define(version: 20150611173250) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "sport_id"
+    t.integer  "fte"
   end
 
-  add_index "roles", ["category_id"], name: "index_roles_on_category_id"
-  add_index "roles", ["sport_id"], name: "index_roles_on_sport_id"
+  add_index "roles", ["category_id"], name: "index_roles_on_category_id", using: :btree
+  add_index "roles", ["sport_id"], name: "index_roles_on_sport_id", using: :btree
 
   create_table "sports", force: :cascade do |t|
     t.string   "name"

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-	resources :sports
-	resources :roles
+	resources :sports do
+		resources :roles
+	end
 	resources :categories
 	resources :positions
 	resources :people

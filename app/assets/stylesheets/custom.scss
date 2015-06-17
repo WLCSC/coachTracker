@@ -14,3 +14,15 @@ body {
   border: thin solid #cf802c;
   border-radius: 8px;
 }
+
+a {
+  color: #000;
+
+  &:hover, &:focus, &:visited {
+    color: #000;
+  }
+}
+
+a.btn {
+  color: white;
+}

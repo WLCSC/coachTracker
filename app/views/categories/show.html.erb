@@ -1,9 +1,27 @@
-<p id="notice"><%= notice %></p>
+<h1>Category <%= @category.name %></h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @category.name %>
-</p>
+<table class="table">
+  <thead>
+    <tr>
+      <td>100% FTE</td>
+      <td>75%</td>
+      <td>66%</td>
+      <td>50%</td>
+      <td>33%</td>
+      <td>25%</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$<%= @category.pay %></td>
+      <td>$<%= (@category.pay * 0.75).to_i %></td>
+      <td>$<%= (@category.pay * 0.66).to_i %></td>
+      <td>$<%= (@category.pay * 0.50).to_i %></td>
+      <td>$<%= (@category.pay * 0.33).to_i %></td>
+      <td>$<%= (@category.pay * 0.25).to_i %></td>
+    </tr>
+  </tbody>
+</table>
 
 <%= link_to 'Edit', edit_category_path(@category) %> |
 <%= link_to 'Back', categories_path %>
