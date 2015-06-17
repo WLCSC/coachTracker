@@ -29,10 +29,8 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.save
         format.html { redirect_to @person, notice: 'Person was successfully created.' }
-        format.json { render :show, status: :created, location: @person }
       else
         format.html { render :new }
-        format.json { render json: @person.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -43,10 +41,8 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.update(person_params)
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
-        format.json { render :show, status: :ok, location: @person }
       else
         format.html { render :edit }
-        format.json { render json: @person.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -57,7 +53,6 @@ class PeopleController < ApplicationController
     @person.destroy
     respond_to do |format|
       format.html { redirect_to people_url, notice: 'Person was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

@@ -1,9 +1,39 @@
-<p id="notice"><%= notice %></p>
+<h1><%= @person.name %></h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @person.name %>
-</p>
+<h2>Positions</h2>
 
-<%= link_to 'Edit', edit_person_path(@person) %> |
-<%= link_to 'Back', people_path %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Sport</th>
+      <th>Role</th>
+      <th>Hire</th>
+      <th>Experience</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @person.positions.each do |position| %>
+      <tr>
+        <td><%= link_to position.sport.short, position.sport %></td>
+        <td><%= position.role.name %><%= (position.fte < 1) ? " (#{percent position.fte})" : "" %></td>
+        <td><%= position.hire %></td>
+        <td><%= position.exp %></td>
+        <td>
+          <%= link_to 'Edit', edit_position_path(position), class: 'btn btn-warning btn-xs' %>
+          <%= link_to 'Unassign', position, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Add Position', new_position_path(person_id: @person.id), class: 'btn btn-primary' %>
+
+<br/>
+<br/>
+
+<%= link_to 'Back to List', people_path, class: 'btn btn-primary' %> &nbsp;
+<%= link_to 'Edit', edit_person_path(@person), class: 'btn btn-warning' %> &nbsp;
+<%= link_to 'Delete', @person, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>

@@ -4,17 +4,20 @@ class PositionsController < ApplicationController
   # GET /positions
   # GET /positions.json
   def index
-    @positions = Position.all
+    @positions = Position.all.to_a.sort_by{|p| [p.sport.start_date, p.sport.short, p.role.category.name]}
   end
 
   # GET /positions/1
   # GET /positions/1.json
   def show
+    redirect_to positions_path
   end
 
   # GET /positions/new
   def new
     @position = Position.new
+    @position.person_id = params[:person_id]
+    @position.role_id = params[:role_id]
   end
 
   # GET /positions/1/edit
@@ -28,11 +31,9 @@ class PositionsController < ApplicationController
 
     respond_to do |format|
       if @position.save
-        format.html { redirect_to @position, notice: 'Position was successfully created.' }
-        format.json { render :show, status: :created, location: @position }
+        format.html { redirect_to positions_path, notice: 'Position was successfully created.' }
       else
         format.html { render :new }
-        format.json { render json: @position.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -42,11 +43,9 @@ class PositionsController < ApplicationController
   def update
     respond_to do |format|
       if @position.update(position_params)
-        format.html { redirect_to @position, notice: 'Position was successfully updated.' }
-        format.json { render :show, status: :ok, location: @position }
+        format.html { redirect_to positions_path, notice: 'Position was successfully updated.' }
       else
         format.html { render :edit }
-        format.json { render json: @position.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -57,7 +56,6 @@ class PositionsController < ApplicationController
     @position.destroy
     respond_to do |format|
       format.html { redirect_to positions_url, notice: 'Position was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

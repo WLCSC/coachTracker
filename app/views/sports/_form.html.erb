@@ -2,13 +2,25 @@
   <%= f.semantic_errors :state %>
 
   <%= f.inputs do %>
-    <%= f.input :name %>
-    <%= f.input :short, label: "Short Code" %>
+    <div class="row">
+      <div class="col-md-8">
+        <%= f.input :name %>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :short, label: "Short Code" %>
+      </div>
+    </div>
   <% end %>
 
   <%= f.inputs name: "Contract Dates" do %>
-    <%= f.input :start_date %>
-    <%= f.input :end_date %>
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.input :start_date %>
+      </div>
+      <div class="col-md-6">
+        <%= f.input :end_date %>
+      </div>
+    </div>
   <% end %>
 
   <%= f.actions do %>

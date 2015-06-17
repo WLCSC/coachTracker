@@ -29,9 +29,27 @@
         <td><%= role.name %></td>
         <td><%= role.category.name %></td>
         <td><%= role.fte %></td>
-        <td></td>
-        <td><%= link_to 'Edit', edit_sport_role_path(@sport, role), class: 'btn btn-warning btn-xs' %></td>
-        <td><%= link_to 'Destroy', [@sport, role], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %></td>
+        <td>
+          <% if role.positions.count > 0 %>
+            <ul>
+              <% role.positions.each do |posn| %>
+                <li><%= link_to posn.person.name, posn.person %> <%= (posn.fte < 1) ? " (#{percent posn.fte})" : "" %></li>
+              <% end %>
+              <% if role.fte - role.positions.sum(:fte) > 0.0099 %>
+                <li><b> <%= percent(role.fte - role.positions.sum(:fte)) %> Unassigned</b></li>
+              <% end %>
+            </ul>
+          <% else %>
+            - n/a -
+          <% end %>
+        </td>
+        <td>
+          <% if role.fte - role.positions.sum(:fte) > 0.0099 %>
+          <%= link_to 'Assign', new_position_path(role_id: role.id), class: 'btn btn-default btn-xs' %> &nbsp;
+          <% end %>
+          <%= link_to 'Edit', edit_sport_role_path(@sport, role), class: 'btn btn-warning btn-xs' %> &nbsp;
+          <%= link_to 'Destroy', [@sport, role], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
+        </td>
       </tr>
     <% end %>
   </tbody>

@@ -113,6 +113,7 @@ samp {
 }
 button,
 input,
+datalist,
 optgroup,
 select,
 textarea {
@@ -143,7 +144,7 @@ input::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
-input {
+input, datalist {
   line-height: normal;
 }
 input[type="checkbox"],
@@ -1091,6 +1092,7 @@ body {
   background-color: #ffffff;
 }
 input,
+datalist,
 button,
 select,
 textarea {

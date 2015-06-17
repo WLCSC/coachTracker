@@ -26,3 +26,20 @@ a {
 a.btn {
   color: white;
 }
+
+td {
+  vertical-align: middle !important;
+}
+
+.table thead {
+  border-color: #cf802c;
+  border-bottom-style: solid;
+}
+
+.table td {
+  border-color: #cf802c !important;
+}
+
+td ul {
+  margin-bottom: 0px;
+}
