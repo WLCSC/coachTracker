@@ -3,6 +3,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th></th>
       <th>Name</th>
       <th>Positions</th>
       <th>Actions</th>
@@ -12,12 +13,13 @@
   <tbody>
     <% @people.each do |person| %>
       <tr>
+        <td><%= (person.certified? ? '' : ' ' + fa_icon('warning', class: 'text-danger')).html_safe %></td>
         <td><%= link_to person.name, person %></td>
         <td>
           <% if person.positions.count > 0 %>
             <ul>
-              <% person.positions.each do |posn| %>
-                <li><%= link_to "#{posn.sport.short} - #{posn.role.name}", posn.sport %> (<%= percent posn.fte %>)</li>
+              <% person.positions.sort_by{|s| s.sport.short}.each do |posn| %>
+                <li><%= link_to "#{posn.sport.short} - #{posn.role.name}", posn.sport %><%= (posn.fte < 1) ? " (#{percent posn.fte})" : "" %></li>
               <% end %>
             </ul>
           <% else %>

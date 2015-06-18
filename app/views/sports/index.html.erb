@@ -17,7 +17,7 @@
         <td><%= link_to sport do %><%= sport.name %> [<%= sport.short %>] <% end %></td>
         <td><%= sport.roles.sum(:fte) %></td>
         <td><%= percent (sport.positions.sum(:fte) / sport.roles.sum(:fte)) %></td>
-        <td><%= sport.start_date %> - <%= sport.end_date %></td>
+        <td><%= nice_date sport.start_date %> - <%= nice_date sport.end_date %></td>
         <td>
           <%= link_to 'Manage Roles', sport, class: 'btn btn-default btn-xs' %> &nbsp;
           <%= link_to 'Edit', edit_sport_path(sport), class: 'btn btn-warning btn-xs' %> &nbsp;

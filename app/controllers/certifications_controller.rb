@@ -1,20 +1,10 @@
 class CertificationsController < ApplicationController
   before_action :set_certification, only: [:show, :edit, :update, :destroy]
-
-  # GET /certifications
-  # GET /certifications.json
-  def index
-    @certifications = Certification.all
-  end
-
-  # GET /certifications/1
-  # GET /certifications/1.json
-  def show
-  end
+  before_action :set_person
 
   # GET /certifications/new
   def new
-    @certification = Certification.new
+    @certification = @person.certifications.build
   end
 
   # GET /certifications/1/edit
@@ -24,15 +14,13 @@ class CertificationsController < ApplicationController
   # POST /certifications
   # POST /certifications.json
   def create
-    @certification = Certification.new(certification_params)
+    @certification = @person.certifications.build(certification_params)
 
     respond_to do |format|
       if @certification.save
-        format.html { redirect_to @certification, notice: 'Certification was successfully created.' }
-        format.json { render :show, status: :created, location: @certification }
+        format.html { redirect_to @person, notice: 'Certification was successfully created.' }
       else
         format.html { render :new }
-        format.json { render json: @certification.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -42,11 +30,9 @@ class CertificationsController < ApplicationController
   def update
     respond_to do |format|
       if @certification.update(certification_params)
-        format.html { redirect_to @certification, notice: 'Certification was successfully updated.' }
-        format.json { render :show, status: :ok, location: @certification }
+        format.html { redirect_to @person, notice: 'Certification was successfully updated.' }
       else
         format.html { render :edit }
-        format.json { render json: @certification.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,8 +42,7 @@ class CertificationsController < ApplicationController
   def destroy
     @certification.destroy
     respond_to do |format|
-      format.html { redirect_to certifications_url, notice: 'Certification was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html { redirect_to @person, notice: 'Certification was successfully destroyed.' }
     end
   end
 
@@ -67,6 +52,9 @@ class CertificationsController < ApplicationController
       @certification = Certification.find(params[:id])
     end
 
+    def set_person
+      @person = Person.find(params[:person_id])
+    end
     # Never trust parameters from the scary internet, only allow the white list through.
     def certification_params
       params.require(:certification).permit(:course_id, :year_id, :person_id)

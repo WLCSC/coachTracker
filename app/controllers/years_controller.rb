@@ -4,7 +4,7 @@ class YearsController < ApplicationController
   # GET /years
   # GET /years.json
   def index
-    @years = Year.all
+    @years = Year.order(:id)
   end
 
   # GET /years/1
@@ -69,6 +69,6 @@ class YearsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def year_params
-      params[:year]
+      params.require(:year).permit(:id)
     end
 end

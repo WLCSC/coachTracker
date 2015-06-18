@@ -1,4 +1,24 @@
-<p id="notice"><%= notice %></p>
+<h1>Certifications Earned in <%= @year.name %></h1>
 
-<%= link_to 'Edit', edit_year_path(@year) %> |
-<%= link_to 'Back', years_path %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Person</th>
+      <th>Course</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @year.certifications.order(:year_id).each do |certification| %>
+      <tr>
+        <td><%= link_to certification.person.name, certification.person %></td>
+        <td><%= link_to certification.course.name, certification.course %></td>
+        <td>
+          <%= link_to 'Edit', edit_person_certification_path(certification.person, certification), class: 'btn btn-warning btn-xs' %> &nbsp;
+          <%= link_to 'Cancel', [certification.person, certification], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

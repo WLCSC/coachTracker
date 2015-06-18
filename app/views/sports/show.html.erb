@@ -15,42 +15,52 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Category</th>
-      <th>FTE</th>
-      <th>Assigned To</th>
+      <th></th>
+      <th>Name</th>
+      <th>Role</th>
+      <th>Cat.</th>
+      <th>Hire</th>
+      <th>Experience</th>
       <th>Actions</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @sport.roles.each do |role| %>
+    <% @sport.roles.each do |r| %>
+    <% r.positions.sort_by{|p| [1-p.fte, p.person.name]}.each do |position| %>
       <tr>
-        <td><%= role.name %></td>
-        <td><%= role.category.name %></td>
-        <td><%= role.fte %></td>
+        <td><%= ((@sport.certified && !position.person.certified?) ? ' ' + fa_icon('warning', class: 'text-danger') : '').html_safe %></td>
+        <td><%= link_to position.person.name, position.person %></td>
+        <td><%= position.role.name %><%= (position.fte < 1) ? " (#{percent position.fte})" : "" %></td>
+        <td><%= position.role.category.name %></td>
+        <td><%= position.hire %></td>
+        <td><%= position.exp %></td>
         <td>
-          <% if role.positions.count > 0 %>
-            <ul>
-              <% role.positions.each do |posn| %>
-                <li><%= link_to posn.person.name, posn.person %> <%= (posn.fte < 1) ? " (#{percent posn.fte})" : "" %></li>
-              <% end %>
-              <% if role.fte - role.positions.sum(:fte) > 0.0099 %>
-                <li><b> <%= percent(role.fte - role.positions.sum(:fte)) %> Unassigned</b></li>
-              <% end %>
-            </ul>
-          <% else %>
-            - n/a -
-          <% end %>
-        </td>
-        <td>
-          <% if role.fte - role.positions.sum(:fte) > 0.0099 %>
-          <%= link_to 'Assign', new_position_path(role_id: role.id), class: 'btn btn-default btn-xs' %> &nbsp;
-          <% end %>
-          <%= link_to 'Edit', edit_sport_role_path(@sport, role), class: 'btn btn-warning btn-xs' %> &nbsp;
-          <%= link_to 'Destroy', [@sport, role], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
+          <%= link_to 'Edit', edit_position_path(position), class: 'btn btn-warning btn-xs' %> &nbsp;
+          <%= link_to 'Unassign', position, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
         </td>
       </tr>
+  <% end %>
+  <% if r.fte - r.positions.sum(:fte) > 0.0099 %>
+    <% remaining = r.fte - r.positions.sum(:fte) %>
+      <% while remaining > 0.1 %>
+        <% partial = (remaining < 1 and remaining > 0.1) %>
+        <tr>
+          <td><%= fa_icon 'question' %></td>
+          <td><i><%= "(#{percent (r.fte - r.positions.sum(:fte))})" if partial  %> Empty</i></td>
+          <td><%= r.name %></td>
+          <td><%= r.category.name %></td>
+          <td></td>
+          <td></td>
+          <td>
+            <%= link_to 'Assign to Existing Person', new_position_path(role_id: r.id, fte: (partial ? (remaining * 100).floor : 100)), class: 'btn btn-default btn-xs' %> &nbsp;
+            <%= link_to 'Assign to New Person', new_person_path(role_id: r.id, fte: (partial ? (remaining * 100).floor : 100)), class: 'btn btn-success btn-xs' %> &nbsp;
+          </td>
+        </td>
+      </tr>
+      <% remaining -= 1 %>
+    <% end %>
+  <% end %>
     <% end %>
   </tbody>
 </table>

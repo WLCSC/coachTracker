@@ -1,8 +1,12 @@
 <%= semantic_form_for(@person) do |f| %>
+  <% if params[:role_id] %>
+    <%= hidden_field_tag :role_id, params[:role_id] %>
+    <%= hidden_field_tag :fte, params[:fte] %>
+  <% end %>
   <%= f.semantic_errors %>
 
   <%= f.inputs do %>
-    <%= f.input :name %>
+    <%= f.input :name, required: true %>
   <% end %>
 
   <%= f.actions do %>

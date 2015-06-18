@@ -1,29 +1,12 @@
-<%= form_for(@certification) do |f| %>
-  <% if @certification.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@certification.errors.count, "error") %> prohibited this certification from being saved:</h2>
+<%= semantic_form_for([@person, @certification]) do |f| %>
+<%= f.semantic_errors %>
 
-      <ul>
-      <% @certification.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= f.inputs do %>
+  <%= f.input :course, required: true %>
+  <%= f.input :year, collection: Year.order(:id).map{|y| [y.name, y.id]}, required: true %>
+<% end %>
 
-  <div class="field">
-    <%= f.label :course_id %><br>
-    <%= f.text_field :course_id %>
-  </div>
-  <div class="field">
-    <%= f.label :year_id %><br>
-    <%= f.text_field :year_id %>
-  </div>
-  <div class="field">
-    <%= f.label :person_id %><br>
-    <%= f.text_field :person_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%= f.actions do %>
+  <%= f.action :submit, button_html: { disable_with: "Wait...", class: 'btn btn-primary' } %>
+<% end %>
 <% end %>

@@ -43,3 +43,47 @@ td {
 td ul {
   margin-bottom: 0px;
 }
+
+.table .table {
+  background-color: lighten(#cf802c, 40%);
+  margin: 10px 0px !important;
+}
+
+.page-break {
+  border-bottom: thick dashed #777;
+}
+
+@media print {
+  body {
+    margin: 0px;
+  }
+
+  .page-container {
+    border: none;
+  }
+
+  .table, .table *, .table td {
+    border-color: #222 !important;
+  }
+
+  .table thead {
+    border-bottom-width: 1px;
+  }
+
+  .page-break {
+    border: none;
+    page-break-after: always;
+  }
+
+  .noprint {
+    display: none;
+  }
+
+  .btn {
+    display: none;
+  }
+
+  a:after {
+    content: none !important;
+  }
+}

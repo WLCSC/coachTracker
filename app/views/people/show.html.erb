@@ -34,6 +34,38 @@
 <br/>
 <br/>
 
+<h2>Certifications</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Course</th>
+      <th>Year</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @person.certifications.each do |certification| %>
+      <tr>
+        <td><%= link_to certification.course.name, certification.course %></td>
+        <td><%= certification.year.name %></td>
+        <td>
+          <%= link_to 'Edit', edit_person_certification_path(@person, certification), class: 'btn btn-warning btn-xs' %> &nbsp;
+          <%= link_to 'Cancel', [@person, certification], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Add Certification', new_person_certification_path(@person), class: 'btn btn-primary' %>
+
+<br/>
+<br/>
+
 <%= link_to 'Back to List', people_path, class: 'btn btn-primary' %> &nbsp;
 <%= link_to 'Edit', edit_person_path(@person), class: 'btn btn-warning' %> &nbsp;
 <%= link_to 'Delete', @person, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>

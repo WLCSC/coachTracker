@@ -1,0 +1,33 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Sport</th>
+      <th>Role</th>
+      <th>Cat.</th>
+      <th>Exp.</th>
+      <th>Dates</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sports.order(:start_date).each do |sport| %>
+      <% sport.roles.order(:category_id, :name).each do |r| %>
+        <% if r.positions.where(:reported => false).count > 0 %>
+          <% r.positions.where(:reported => false).sort_by{|p| [1-p.fte, p.person.name]}.each do |position| %>
+            <tr>
+              <td><%= position.person.name %></td>
+              <td><%= position.sport.name %></td>
+              <td><%= position.role.name %><%= (position.fte < 1) ? " (#{percent position.fte})" : "" %></td>
+              <td><%= position.role.category.name %></td>
+              <td><%= position.exp %></td>
+              <td><%= nice_date position.role.sport.start_date %> - <%= nice_date position.role.sport.end_date %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Mark All as Reported', report_report_path, data: { confirm: 'Are you sure?' }, class: 'btn noprint btn-danger' %>

@@ -4,26 +4,26 @@
 	<%= f.inputs do %>
 		<div class="row">
 			<div class="col-md-6">
-				<%= f.input :person %>
+				<%= f.input :person, collection: Person.order(:name), required: true %>
 			</div>
 			<div class="col-md-6">
-				<%= f.input :role, collection: Role.open_positions(@position.person).map {|r| ["#{r.sport.name} - #{r.name}", r.id]} %>
+				<%= f.input :role, collection: Role.open_positions(@position.person).map {|r| ["#{r.sport.name} - #{r.name}", r.id]}, required: true %>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-3">
-				<%= f.input :experience, as: :select, collection: {'T' => -1,0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, '9+' => 10} %>
+			<div class="col-md-2">
+				<%= f.input :experience, as: :select, collection: {'T' => -1,0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, '9+' => 10}, required: true %>
 			</div>
-			<div class="col-md-3">
-				<%= f.input :fte, as: :select, collection: [1.0, 0.75, 0.666, 0.5, 0.333, 0.25] %>
+			<div class="col-md-2">
+				<%= f.input :fte, as: :select, collection: {'100%' => 1.0, '75%' => 0.75, '66%' => 0.666, '50%' => 0.5, '33%' => 0.333, '25%' => 0.25}, required: true %>
+			</div>
+			<div class="col-md-2">
+				<%= f.input :reported, as: :select, required: true %>
 			</div>
 			<div class="col-md-6">
 				<%= f.input :hire %>
 			</div>
 		</div>
-		<%= f.input :year_id, as: :hidden, input_html: {value: current_year} %>
-
-
 	<% end %>
 
 	<%= f.actions do %>

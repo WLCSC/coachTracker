@@ -2,9 +2,9 @@
 <%= f.semantic_errors %>
 
 <%= f.inputs do %>
-  <%= f.input :name, label: 'Title' %>
-  <%= f.input :category %>
-  <%= f.input :fte %>
+  <%= f.input :name, label: 'Title', required: true %>
+  <%= f.input :category, required: true %>
+  <%= f.input :fte, required: true %>
 <% end %>
 
 <%= f.actions do %>

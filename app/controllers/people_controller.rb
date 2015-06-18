@@ -28,7 +28,13 @@ class PeopleController < ApplicationController
 
     respond_to do |format|
       if @person.save
-        format.html { redirect_to @person, notice: 'Person was successfully created.' }
+        format.html {
+          if params[:role_id]
+            redirect_to new_position_path(role_id: params[:role_id], fte: params[:fte], person_id: @person.id)
+          else
+            redirect_to @person, notice: 'Person was successfully created.'
+          end
+        }
       else
         format.html { render :new }
       end

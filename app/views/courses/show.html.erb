@@ -1,14 +1,32 @@
-<p id="notice"><%= notice %></p>
+<h1><%= @course.name %></h1>
+<p><i><%= @course.provider %></i></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @course.name %>
-</p>
+<h2>People with this Course</h2>
 
-<p>
-  <strong>Provider:</strong>
-  <%= @course.provider %>
-</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Year</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
 
-<%= link_to 'Edit', edit_course_path(@course) %> |
-<%= link_to 'Back', courses_path %>
+  <tbody>
+    <% @course.certifications.order(:year_id).each do |certification| %>
+      <tr>
+        <td><%= link_to certification.person.name, certification.person %></td>
+        <td><%= certification.year.id %></td>
+        <td>
+          <%= link_to 'Edit', edit_person_certification_path(certification.person, certification), class: 'btn btn-warning btn-xs' %> &nbsp;
+          <%= link_to 'Cancel', [certification.person, certification], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<%= link_to 'Back to List', courses_path, class: 'btn btn-default' %> &nbsp;
+<%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-warning' %> &nbsp;
+<%= link_to 'Remove', @course, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>

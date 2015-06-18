@@ -1,0 +1,52 @@
+<% @sports.each do |sport| %>
+<div class="page-break">
+<h1><%= sport.name %> (printed <%= nice_date Date.today %>)</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Role</th>
+      <th>Cat.</th>
+      <th>Certification</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% sport.roles.each do |r| %>
+      <% r.positions.sort_by{|p| [1-p.fte, p.person.name]}.each do |position| %>
+        <tr>
+          <td><%= position.person.name %></td>
+          <td><%= position.role.name %><%= (position.fte < 1) ? " (#{percent position.fte})" : "" %></td>
+          <td><%= position.role.category.name %></td>
+
+          <td>
+            <%= ((sport.certified && !position.person.certified?) ? ' ' + fa_icon('warning', class: 'text-danger') + ' ' + "Needs additional certifications!" : ' ' + fa_icon('check-circle', class: 'text-success') + ' ' + "Meets certification requirements!").html_safe %>
+            <table class="table">
+              <% if position.person.certifications.where(year_id: (current_year-5)...current_year+1).count > 0 %>
+            <% position.person.certifications.where(year_id: (current_year-5)...current_year+1).each do |certification| %>
+              <tr>
+                <td></td>
+                <td><%= certification.course.name %></td>
+                <td><%= certification.year.name %></td>
+                <td></td>
+              </tr>
+              <% end %>
+              <% else %>
+                <tr>
+                  <td></td>
+                  <td>
+                    <b>No certifications on file in the past 5 years!</b>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </td>
+        </tr>
+
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+</div>
+<% end %>

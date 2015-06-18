@@ -4,7 +4,7 @@ class PositionsController < ApplicationController
   # GET /positions
   # GET /positions.json
   def index
-    @positions = Position.all.to_a.sort_by{|p| [p.sport.start_date, p.sport.short, p.role.category.name]}
+    @sports = Sport.order(:short)
   end
 
   # GET /positions/1
@@ -18,6 +18,22 @@ class PositionsController < ApplicationController
     @position = Position.new
     @position.person_id = params[:person_id]
     @position.role_id = params[:role_id]
+    if params[:fte]
+      @position.fte = case params[:fte]
+      when '100'
+        1.0
+      when '75'
+        0.75
+      when '66'
+        0.666
+      when '50'
+        0.5
+      when '33'
+        0.333
+      when '25'
+        0.25
+      end
+    end
   end
 
   # GET /positions/1/edit
@@ -67,6 +83,6 @@ class PositionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def position_params
-      params.require(:position).permit(:hire, :experience, :fte, :year_id, :role_id, :person_id, :sport_id)
+      params.require(:position).permit(:hire, :experience, :fte, :year_id, :role_id, :person_id, :sport_id, :reported)
     end
 end

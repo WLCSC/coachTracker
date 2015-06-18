@@ -4,7 +4,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def current_year
-    Date.today.year
+    cy = Date.today.year
+		cy -= 1 if Date.today.month < 6
+    cy
   end
 
   helper_method :current_year

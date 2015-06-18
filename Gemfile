@@ -44,6 +44,7 @@ end
 
 # Bootstrap
 gem "bootstrap-sass", "~> 3.3"
+gem "font-awesome-rails"
 
 # For convenient forms
 gem "formtastic", "~> 3.1"

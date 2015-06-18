@@ -1,17 +1,11 @@
-<%= form_for(@year) do |f| %>
-  <% if @year.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@year.errors.count, "error") %> prohibited this year from being saved:</h2>
+<%= semantic_form_for(@year) do |f| %>
+<%= f.semantic_errors %>
 
-      <ul>
-      <% @year.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= f.inputs do %>
+  <%= f.input :id, label: 'Year (for the 2015-2016 school year, put 2015)', required: true %>
+<% end %>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%= f.actions do %>
+  <%= f.action :submit, button_html: { disable_with: "Wait...", class: 'btn btn-primary' } %>
+<% end %>
 <% end %>
