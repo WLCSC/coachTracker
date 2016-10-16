@@ -4,7 +4,8 @@ class PeopleController < ApplicationController
   # GET /people
   # GET /people.json
   def index
-    @people = Person.all
+    @people = Person.all.sort{|a,b| a.lname <=> b.lname}
+    @pool = []
   end
 
   # GET /people/1

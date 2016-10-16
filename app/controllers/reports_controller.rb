@@ -3,7 +3,11 @@ class ReportsController < ApplicationController
   end
 
   def sports
-    @sports = Sport.where(:certified => true)
+    if params[:sport_id]
+      @sports = Sport.where(id: params[:sport_id])
+    else
+      @sports = Sport.where(:certified => true)
+    end
   end
 
   def hire

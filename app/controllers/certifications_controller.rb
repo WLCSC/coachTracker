@@ -5,6 +5,7 @@ class CertificationsController < ApplicationController
   # GET /certifications/new
   def new
     @certification = @person.certifications.build
+    @certification.year = current_year
   end
 
   # GET /certifications/1/edit
@@ -14,14 +15,16 @@ class CertificationsController < ApplicationController
   # POST /certifications
   # POST /certifications.json
   def create
-    @certification = @person.certifications.build(certification_params)
-
-    respond_to do |format|
-      if @certification.save
-        format.html { redirect_to @person, notice: 'Certification was successfully created.' }
-      else
-        format.html { render :new }
+    params[:certification][:course_id].each do |i|
+      begin
+        cert = @person.certifications.build(course_id: i, year_id: params[:certification][:year_id])
+        cert.save
+      rescue
       end
+    end
+    @certification = @person.certifications.build(certification_params)
+    respond_to do |format|
+      format.html { redirect_to @person, notice: 'Certification was successfully created.' }
     end
   end
 

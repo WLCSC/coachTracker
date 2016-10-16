@@ -2,8 +2,20 @@
   <%= f.semantic_errors %>
 
   <%= f.inputs do %>
-    <%= f.input :name, required: true %>
-    <%= f.input :pay, required: true %>
+      <div class="row">
+        <div class="col-md-3">
+          <%= f.input :name, required: true %>
+        </div>  
+      <div class="col-md-3">
+          <%= f.input :pay, required: true %>
+      </div>  
+      <div class="col-md-3">
+          <%= f.input :rank, required: true %>
+      </div>  
+      <div class="col-md-3">
+          <%= f.input :counted, as: :select %>
+      </div>  
+    </div>  
   <% end %>
 
   <%= f.actions do %>

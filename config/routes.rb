@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :seasons
   get 'reports' => "reports#index", as: :reports
   get 'reports/sports', as: :sports_report
   get 'reports/hire', as: :hiring_report
@@ -12,7 +13,11 @@ Rails.application.routes.draw do
 	resources :people do
 		resources :certifications
 	end
-	resources :years
+	resources :years do
+		get :setup, on: :collection
+		post :rollover, on: :collection
+		get :pseudo, on: :collection
+	end
 	resources :courses
 	# The priority is based upon order of creation: first created -> highest priority.
 	# See how all your routes lay out with "rake routes".

@@ -14,13 +14,13 @@
   <tbody>
     <% @sports.each do |sport| %>
       <tr>
-        <td><%= link_to sport do %><%= sport.name %> [<%= sport.short %>] <% end %></td>
+          <td><%= link_to sport do %>[<%= sport.short_name %>] <%= sport.name %> <% end %></td>
         <td><%= sport.roles.sum(:fte) %></td>
-        <td><%= percent (sport.positions.sum(:fte) / sport.roles.sum(:fte)) %></td>
+        <td><%= percent (sport.positions.where(year: current_year).sum(:fte) / sport.roles.sum(:fte)) %></td>
         <td><%= nice_date sport.start_date %> - <%= nice_date sport.end_date %></td>
         <td>
-          <%= link_to 'Manage Roles', sport, class: 'btn btn-default btn-xs' %> &nbsp;
-          <%= link_to 'Edit', edit_sport_path(sport), class: 'btn btn-warning btn-xs' %> &nbsp;
+          <%= link_to "Printable Report", sports_report_path(sport_id: sport.id), class: 'btn btn-info btn-xs' %> &nbsp;
+          <%= link_to 'Manage Roles & Coaches', sport, class: 'btn btn-default btn-xs' %> &nbsp;
         </td>
       </tr>
     <% end %>

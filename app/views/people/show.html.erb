@@ -1,6 +1,6 @@
 <h1><%= @person.name %></h1>
 
-<h2>Positions</h2>
+<h2>Current Positions</h2>
 
 <table class="table">
   <thead>
@@ -14,7 +14,7 @@
   </thead>
 
   <tbody>
-    <% @person.positions.each do |position| %>
+    <% @person.positions.where(year: current_year).each do |position| %>
       <tr>
         <td><%= link_to position.sport.short, position.sport %></td>
         <td><%= position.role.name %><%= (position.fte < 1) ? " (#{percent position.fte})" : "" %></td>
@@ -31,8 +31,8 @@
 
 <%= link_to 'Add Position', new_position_path(person_id: @person.id), class: 'btn btn-primary' %>
 
-<br/>
-<br/>
+<div class="row">
+<div class="col-md-6">
 
 <h2>Certifications</h2>
 
@@ -63,9 +63,36 @@
 
 <%= link_to 'Add Certification', new_person_certification_path(@person), class: 'btn btn-primary' %>
 
-<br/>
-<br/>
+</div>
+<div class="col-md-6">
+<h2>Historical Positions</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Sport</th>
+      <th>Role</th>
+      <th>Hire</th>
+      <th>Experience</th>
+    </tr>
+  </thead>
 
-<%= link_to 'Back to List', people_path, class: 'btn btn-primary' %> &nbsp;
+  <tbody>
+    <% @person.positions.where.not(year: current_year).each do |position| %>
+      <tr>
+        <td><%= position.year.id %></td>
+        <td><%= position.sport.short %></td>
+        <td><%= position.role.name %><%= (position.fte < 1) ? " (#{percent position.fte})" : "" %></td>
+        <td><%= position.hire %></td>
+        <td><%= position.exp %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>
+</div>
+<br/>
+<%= link_to 'Back to List', people_path(anchor: "person-#{@person.id}"), class: 'btn btn-primary' %> &nbsp;
 <%= link_to 'Edit', edit_person_path(@person), class: 'btn btn-warning' %> &nbsp;
 <%= link_to 'Delete', @person, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>

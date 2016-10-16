@@ -6,6 +6,8 @@ body {
   background-color: #cf802c;
   background-image: asset-url("wood-pattern.png");
   margin-top: 80px;
+  color: black;
+  counter-reset: section;
 }
 
 .page-container {
@@ -15,11 +17,23 @@ body {
   border-radius: 8px;
 }
 
+.navbar .label {
+  font-size: 100%;
+  font-weight: normal;
+}
+
 a {
-  color: #000;
+  color: darken(#cf802c, 30%);
 
   &:hover, &:focus, &:visited {
-    color: #000;
+    color: darken(#cf802c, 30%);
+  }
+
+  &.anchor {
+    display: block;
+    position: relative;
+    top: -80px;
+    visibility: hidden;
   }
 }
 
@@ -49,8 +63,31 @@ td ul {
   margin: 10px 0px !important;
 }
 
+tr.uncounted {
+  td {
+    background-color: lighten(#cf802c, 25%);
+    font-style: italic;
+  }
+}
+
+tr.unfilled {
+  td {
+    background-color: lighten(#cf802c, 40%);
+    font-weight: bold;
+  }
+}
+
 .page-break {
   border-bottom: thick dashed #777;
+}
+
+h1.numbered::before {
+    counter-increment: section;
+    content: counter(section)") "
+}
+
+tr.heavy-top td{
+    border-top-width: 3px !important;
 }
 
 @media print {
@@ -64,6 +101,10 @@ td ul {
 
   .table, .table *, .table td {
     border-color: #222 !important;
+  }
+
+  .table>tbody>tr>td {
+      padding: 2px;
   }
 
   .table thead {
@@ -86,4 +127,10 @@ td ul {
   a:after {
     content: none !important;
   }
+
+  h1.numbered::before {
+    counter-increment: section;
+    content: ""
+  }
+
 }

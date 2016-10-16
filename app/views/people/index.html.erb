@@ -11,29 +11,49 @@
   </thead>
 
   <tbody>
-    <% @people.each do |person| %>
+  <% @people.each do |person| %>
+      <% if person.positions.where(year: current_year).count > 0 %>
       <tr>
-        <td><%= (person.certified? ? '' : ' ' + fa_icon('warning', class: 'text-danger')).html_safe %></td>
+          <td>
+            <a class="anchor" id="person-<%= person.id %>"></a>
+            <%= (person.certified? ? fa_icon('check', class: 'text-success') : fa_icon('warning', class: 'text-danger')).html_safe %>
+          </td>
         <td><%= link_to person.name, person %></td>
         <td>
-          <% if person.positions.count > 0 %>
             <ul>
-              <% person.positions.sort_by{|s| s.sport.short}.each do |posn| %>
+              <% person.positions.where(year: current_year).sort_by{|s| s.sport.short}.each do |posn| %>
                 <li><%= link_to "#{posn.sport.short} - #{posn.role.name}", posn.sport %><%= (posn.fte < 1) ? " (#{percent posn.fte})" : "" %></li>
               <% end %>
             </ul>
-          <% else %>
-            - n/a -
-          <% end %>
         </td>
         <td>
           <%= link_to 'Manage Positions', person, class: 'btn btn-default btn-xs' %> &nbsp;
         <%= link_to 'Edit', edit_person_path(person), class: 'btn btn-warning btn-xs' %>
         </td>
-      </tr>
+    </tr>
+    <% else %>
+      <% @pool << person %>
+    <% end %>
     <% end %>
   </tbody>
 </table>
+
+<% if @pool.count > 0 %>
+<h2>Unassigned People</h2>
+<table class="table">
+<% @pool.in_groups_of(6) do |g| %>
+<tr>
+<% g.each do |person| %>
+<td>
+<% if person %>
+<%= link_to person.name, person %>
+<% end %>
+</td>
+<% end %>
+</tr>
+<% end %>
+</table>
+<% end %>
 
 <br>
 

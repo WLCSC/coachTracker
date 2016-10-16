@@ -1,0 +1,50 @@
+<h1>Roll Over &amp; Set Up Next Year</h1>
+
+<%= form_tag rollover_years_path do %>
+<h2>Year</h2>
+<p>We're starting the year <%= text_field_tag :newyear, current_year.id + 1 %></p>
+
+<h2>Staffing &amp; Season Dates</h2>
+<p>Check the box for all <strong>returning</strong> staff members.</p>
+<% Sport.all.sort_by{|x| [x.season.start, x.start_date, x.name, x.group]}.in_groups_of(3) do |group| %>
+<div class="row">
+<% group.each do |sport| %>
+<% if sport %>
+<div class="col-md-4">
+<div class="panel panel-default">
+<div class="panel-heading"><h4><%= sport.name %></h4></div>
+<div class="panel-body">
+<table class="table">
+<tr>
+<td>Start</td>
+<td>End</td>
+</tr>
+<tr>
+	<td><%= date_field_tag 'start-' + sport.id.to_s, (sport.start_date + 1.year - 2.day).strftime('%Y-%m-%d') %></td>
+	<td><%= date_field_tag 'end-' + sport.id.to_s, (sport.end_date + 1.year - 2.day).strftime('%Y-%m-%d') %></td>
+</tr>
+</div>
+<table class="table">
+      <% sport.roles.order(:category_id, :name).each do |r| %>
+        <% r.positions.where(year: current_year).sort_by{|p| [1-p.fte, p.person.name]}.each do |position| %>
+	<tr>
+	    <td><%= check_box_tag 'rollover-' + position.id.to_s, true, checked: true %></td>
+            <td><%= position.person.name %></td>
+            <td><%= position.role.name %><%= (position.fte < 1) ? " (#{percent position.fte})" : "" %></td>
+            <td><%= position.exp %></td>
+          </tr>
+      <% end %>
+    <% end %>
+ </table>
+</div>
+</div>
+</div>
+<% end %>
+<% end %>
+</div>
+<% end %>
+
+
+<%= submit_tag "Perform Rollover", class: 'btn btn-block btn-warning' %>
+
+<% end %>

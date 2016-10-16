@@ -4,7 +4,6 @@
   <thead>
     <tr>
       <th>Years</th>
-      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -12,7 +11,7 @@
     <% @years.each do |year| %>
       <tr>
         <td><%= link_to year.name, year %></td>
-        <td><%= link_to 'Edit', edit_year_path(year) %></td>
+	<td><%= link_to "Switch to #{year.name}", pseudo_years_path(year: year.id), class: 'btn btn-sm btn-warning' unless year == current_year %></td>
       </tr>
     <% end %>
   </tbody>
@@ -20,4 +19,5 @@
 
 <br>
 
-<%= link_to 'New Year', new_year_path, class: 'btn btn-primary' %>
+<%= link_to 'Roll Over & Start New Year', setup_years_path, class: 'btn btn-primary' %>
+<%= link_to 'Add Year', new_year_path, class: 'btn btn-default' %>

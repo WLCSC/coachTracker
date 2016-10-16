@@ -16,4 +16,8 @@ class Person < ActiveRecord::Base
 			false
 		end
 	end
+
+    def lname
+        name.split(' ').last
+    end
 end

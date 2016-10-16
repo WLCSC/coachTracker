@@ -18,3 +18,5 @@
 
 # Ignore these files for security purposes
 /config/database.yml
+current_year
+rollover-log-*.txt

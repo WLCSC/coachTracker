@@ -1,4 +1,4 @@
-<h1>Current Position Assignments</h1>
+<h1><%= current_year.name %> Position Assignments</h1>
 
 <table class="table">
   <thead>
@@ -8,45 +8,53 @@
       <th>Sport</th>
       <th>Role</th>
       <th>Cat.</th>
+      <th>Exp</th>
+      <th>Contract Dates</th>
       <th>Hire</th>
-      <th>Experience</th>
       <th>Actions</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @sports.order(:start_date).each do |sport| %>
+    <% @sports.each do |sport| %>
+        <% heavy = true %>
       <% sport.roles.order(:category_id, :name).each do |r| %>
-        <% r.positions.sort_by{|p| [1-p.fte, p.person.name]}.each do |position| %>
-          <tr>
-            <td><%= ((sport.certified && !position.person.certified?) ? ' ' + fa_icon('warning', class: 'text-danger') : '').html_safe %></td>
+        <% r.positions.where(year: current_year).sort_by{|p| [1-p.fte, p.person.name]}.each do |position| %>
+          <tr class="<%= "heavy-top" if heavy %> <%= "uncounted" unless r.category.counted %>" >
+              <% heavy = false %>
+            <td><%= ((sport.certified && !position.person.certified?) ? fa_icon('warning', class: 'text-danger') : fa_icon('check', class: 'text-success')).html_safe %></td>
             <td><%= link_to position.person.name, position.person %></td>
-            <td><%= link_to position.sport.short, position.sport %></td>
+            <td><%= link_to position.sport.name, position.sport %></td>
             <td><%= position.role.name %><%= (position.fte < 1) ? " (#{percent position.fte})" : "" %></td>
             <td><%= position.role.category.name %></td>
-            <td><%= position.hire %></td>
             <td><%= position.exp %></td>
+            <td><%= nice_date(position.sport.start_date > position.hire ? position.sport.start_date : position.hire) %> - <%= nice_date position.sport.end_date %></td>
+            <td><%= nice_date position.hire %></td>
             <td>
+              <a class="anchor" id="row-<%= position.id %>"></a>
               <%= link_to 'Edit', edit_position_path(position), class: 'btn btn-warning btn-xs' %> &nbsp;
               <%= link_to 'Unassign', position, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
             </td>
           </tr>
       <% end %>
-      <% if r.fte - r.positions.sum(:fte) > 0.0099 %>
-        <% remaining = r.fte - r.positions.sum(:fte) %>
+      <% if r.fte - r.positions.where(year: current_year).sum(:fte) > 0.0099 %>
+        <% remaining = r.fte - r.positions.where(year: current_year).sum(:fte) %>
           <% while remaining > 0.1 %>
             <% partial = (remaining < 1 and remaining > 0.1) %>
-            <tr>
+        <% if r.category.counted %>
+        <tr class="unfilled">
+        <% else %>
+        <tr class="uncounted">
+        <% end %>
               <td><%= fa_icon 'question' %></td>
-              <td><i><%= "(#{percent (r.fte - r.positions.sum(:fte))})" if partial  %> Empty</i></td>
-              <td><%= link_to r.sport.short, r.sport %></td>
-              <td><%= r.name %></td>
+              <td></td>
+              <td><%= link_to r.sport.name, r.sport %></td>
+              <td><%= r.name %><%= " (#{percent remaining})" if partial  %></td>
               <td><%= r.category.name %></td>
               <td></td>
-              <td></td>
-              <td>
-                <%= link_to 'Assign to Existing Person', new_position_path(role_id: r.id, fte: (partial ? (remaining * 100).floor : 100)), class: 'btn btn-default btn-xs' %> &nbsp;
-                <%= link_to 'Assign to New Person', new_person_path(role_id: r.id, fte: (partial ? (remaining * 100).floor : 100)), class: 'btn btn-success btn-xs' %> &nbsp;
+              <td colspan="3">
+                <%= link_to 'Fill with Existing Person', new_position_path(role_id: r.id, fte: (partial ? (remaining * 100).floor : 100)), class: 'btn btn-default btn-xs' %> &nbsp;
+                <%= link_to 'Fill with New Person', new_person_path(role_id: r.id, fte: (partial ? (remaining * 100).floor : 100)), class: 'btn btn-success btn-xs' %>
               </td>
             </td>
           </tr>

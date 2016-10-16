@@ -2,7 +2,7 @@
 <%= f.semantic_errors %>
 
 <%= f.inputs do %>
-  <%= f.input :course, required: true %>
+  <%= f.input :course, required: true, as: :check_boxes %>
   <%= f.input :year, collection: Year.order(:id).map{|y| [y.name, y.id]}, required: true %>
 <% end %>
 

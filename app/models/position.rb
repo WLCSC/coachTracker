@@ -1,7 +1,8 @@
 class TimeLimitValidator < ActiveModel::Validator
 	def validate position
-		if (position.role.fte - position.role.positions.sum(:fte) - (position.id ? 0 : position.fte )) < -0.1
-			position.errors[:fte] << "is too high. #{(position.role.positions.sum(:fte))}"
+                year = position.year
+		if (position.role.fte - position.role.positions.where(year: year).sum(:fte) - (position.id ? 0 : position.fte )) < -0.1
+			position.errors[:fte] << "is too high. #{(position.role.positions.where(year: year).sum(:fte))}"
 		end
 	end
 end
@@ -9,6 +10,7 @@ end
 class Position < ActiveRecord::Base
 	belongs_to :person
 	belongs_to :role
+	belongs_to :year
 
 	validates_associated :person
 	validates_associated :role
@@ -32,6 +34,8 @@ class Position < ActiveRecord::Base
 			"T"
 		when 10
 			"9+"
+        when -100
+            "n/a"
 		else
 			experience
 		end

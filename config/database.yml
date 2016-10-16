@@ -24,4 +24,6 @@ test:
 
 production:
   <<: *default
-  host: appx-database.wlcsc.k12.in.us
+  host: localhost
+  username: brad
+  password: 98211

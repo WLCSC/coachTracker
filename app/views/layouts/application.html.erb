@@ -23,18 +23,24 @@
           <ul class="nav navbar-nav">
             <li><%= link_to "Positions", root_path %></li>
             <li><%= link_to "People", people_path %></li>
-						<li><%= link_to "Sports", sports_path %></li>
+	    <li><%= link_to "Sports", sports_path %></li>
             <li><%= link_to "Courses", courses_path %></li>
-						<li><%= link_to "Reporting", reports_path %></li>
+	    <li><%= link_to "Reporting", reports_path %></li>
           </ul>
 
 					<ul class="nav navbar-nav navbar-right">
+            <% if pseudoyear? %>
+            <li><%= link_to pseudo_years_path do %><span class="label label-danger">Cancel <%= current_year.name %> Year Override</span><% end %></li>
+            <% else %>
+            <li><%= link_to years_path do %><span class="label label-success"><%= current_year.name %></span><% end %></li>
+            <% end %>
 						<li class="dropdown">
 							<%= link_to "Setup", '#', class: 'dropdown-toggle', role: 'button', data: {toggle: 'dropdown'} %>
 							<ul class="dropdown-menu">
 
 								<li><%= link_to "Pay Categories", categories_path %></li>
 								<li><%= link_to "Years", years_path %></li>
+								<li><%= link_to "Seasons", seasons_path %></li>
 							</ul>
 						</li>
 					</ul>

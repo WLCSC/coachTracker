@@ -3,25 +3,29 @@
 
   <%= f.inputs do %>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-3">
         <%= f.input :name, required: true %>
+      </div>
+      <div class="col-md-3">
+        <%= f.input :season_id, label: "Season", as: :select, collection: Season.all, required: true %>
       </div>
       <div class="col-md-3">
         <%= f.input :short, label: "Short Code", required: true %>
       </div>
       <div class="col-md-3">
-        <%= f.input :certified, as: :select, label: "Require Certification", required: true %>
+        <%= f.input :group, required: true %>
       </div>
     </div>
-  <% end %>
 
-  <%= f.inputs name: "Contract Dates" do %>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-5">
         <%= f.input :start_date, required: true %>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-5">
         <%= f.input :end_date, required: true %>
+      </div>
+      <div class="col-md-2">
+        <%= f.input :certified, as: :select, label: "Require Certification", required: true %>
       </div>
     </div>
   <% end %>

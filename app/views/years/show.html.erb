@@ -1,3 +1,4 @@
+<div class="page-break">
 <h1>Certifications Earned in <%= @year.name %></h1>
 
 <table class="table">
@@ -14,11 +15,70 @@
       <tr>
         <td><%= link_to certification.person.name, certification.person %></td>
         <td><%= link_to certification.course.name, certification.course %></td>
-        <td>
-          <%= link_to 'Edit', edit_person_certification_path(certification.person, certification), class: 'btn btn-warning btn-xs' %> &nbsp;
-          <%= link_to 'Cancel', [certification.person, certification], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
-        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+</div>
+
+<div class="page-break">
+<h1><%= current_year.name %> Position Assignments</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Sport</th>
+      <th>Role</th>
+      <th>Cat.</th>
+      <th>Exp</th>
+      <th>Contract Dates</th>
+      <th>Hire</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% Sport.all.each do |sport| %>
+        <% heavy = true %>
+      <% sport.roles.order(:category_id, :name).each do |r| %>
+        <% r.positions.where(year: current_year).sort_by{|p| [1-p.fte, p.person.name]}.each do |position| %>
+          <tr class="<%= "heavy-top" if heavy %> <%= "uncounted" unless r.category.counted %>" id="row-<%= position.id %>">
+              <% heavy = false %>
+            <td><%= ((sport.certified && !position.person.certified?) ? fa_icon('warning', class: 'text-danger') : fa_icon('check', class: 'text-success')).html_safe %></td>
+            <td><%= link_to position.person.name, position.person %></td>
+            <td><%= link_to position.sport.name, position.sport %></td>
+            <td><%= position.role.name %><%= (position.fte < 1) ? " (#{percent position.fte})" : "" %></td>
+            <td><%= position.role.category.name %></td>
+            <td><%= position.exp %></td>
+            <td><%= nice_date(position.sport.start_date > position.hire ? position.sport.start_date : position.hire) %> - <%= nice_date position.sport.end_date %></td>
+            <td><%= nice_date position.hire %></td>
+          </tr>
+      <% end %>
+      <% if r.fte - r.positions.where(year: current_year).sum(:fte) > 0.0099 %>
+        <% remaining = r.fte - r.positions.where(year: current_year).sum(:fte) %>
+          <% while remaining > 0.1 %>
+            <% partial = (remaining < 1 and remaining > 0.1) %>
+        <% if r.category.counted %>
+        <tr class="unfilled">
+        <% else %>
+        <tr class="uncounted">
+        <% end %>
+              <td><%= fa_icon 'question' %></td>
+              <td></td>
+              <td><%= link_to r.sport.name, r.sport %></td>
+              <td><%= r.name %><%= " (#{percent remaining})" if partial  %></td>
+              <td><%= r.category.name %></td>
+              <td></td>
+              <td colspan="3">
+              </td>
+            </td>
+          </tr>
+          <% remaining -= 1 %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+</div>

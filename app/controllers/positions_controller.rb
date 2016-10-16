@@ -4,7 +4,7 @@ class PositionsController < ApplicationController
   # GET /positions
   # GET /positions.json
   def index
-    @sports = Sport.order(:short)
+    @sports = Sport.all.sort_by{|x| [x.season.start, x.start_date, x.name, x.group]}
   end
 
   # GET /positions/1
@@ -18,6 +18,8 @@ class PositionsController < ApplicationController
     @position = Position.new
     @position.person_id = params[:person_id]
     @position.role_id = params[:role_id]
+    @position.year = current_year
+    @position.hire = Date.today
     if params[:fte]
       @position.fte = case params[:fte]
       when '100'
@@ -47,7 +49,7 @@ class PositionsController < ApplicationController
 
     respond_to do |format|
       if @position.save
-        format.html { redirect_to positions_path, notice: 'Position was successfully created.' }
+        format.html { redirect_to positions_path(anchor: "row-#{@position.id}"), notice: 'Position was successfully created.' }
       else
         format.html { render :new }
       end

@@ -1,0 +1,12 @@
+<%= semantic_form_for(@season) do |f| %>
+<%= f.semantic_errors %>
+
+<%= f.inputs do %>
+  <%= f.input :name, label: 'Season Name', required: true %>
+  <%= f.input :start, label: 'Start Date', required: true %>
+<% end %>
+
+<%= f.actions do %>
+  <%= f.action :submit, button_html: { disable_with: "Wait...", class: 'btn btn-primary' } %>
+<% end %>
+<% end %>
