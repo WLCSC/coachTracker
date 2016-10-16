@@ -30,7 +30,7 @@
 
 					<ul class="nav navbar-nav navbar-right">
             <% if pseudoyear? %>
-            <li><%= link_to pseudo_years_path do %><span class="label label-danger">Cancel <%= current_year.name %> Year Override</span><% end %></li>
+            <li><%= link_to pseudo_years_path do %><span class="label label-danger">Cancel Time Travel to <%= current_year.name %></span><% end %></li>
             <% else %>
             <li><%= link_to years_path do %><span class="label label-success"><%= current_year.name %></span><% end %></li>
             <% end %>

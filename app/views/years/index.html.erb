@@ -11,7 +11,8 @@
     <% @years.each do |year| %>
       <tr>
         <td><%= link_to year.name, year %></td>
-	<td><%= link_to "Switch to #{year.name}", pseudo_years_path(year: year.id), class: 'btn btn-sm btn-warning' unless year == current_year %></td>
+        <td><%= link_to "Summary Report", year, class: 'btn btn-sm btn-info' %></td>
+	<td><%= link_to "Time Travel to #{year.name}", pseudo_years_path(year: year.id), class: 'btn btn-sm btn-warning' unless year == current_year %></td>
       </tr>
     <% end %>
   </tbody>
